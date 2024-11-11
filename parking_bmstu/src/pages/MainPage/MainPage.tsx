@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import './MainPage.css';
@@ -31,7 +32,10 @@ const MainPage: React.FC = () => {
                 <div className="name-pr-container">
                   <div className="name">{card.name}</div>
                   <div className="pr">
-                    <a href={`/details/${card.id}`} className="details-link">подробнее &gt;</a>
+                    {/* Ссылка на страницу парковки */}
+                    <Link to={`/parking/${card.id}`} className="details-link">
+                      подробнее &gt;
+                    </Link>
                   </div>
                   <div className="text">Количество мест: {card.spots}</div>
                   <div className="text">

@@ -8,6 +8,7 @@ const App: React.FC = () => {
         <Router>
             <Routes>
                 <Route path="/" element={<MainPage />} />
+                <Route path="/Parking/:id" element={<ParkingPage />} />
             </Routes>
         </Router>
     );
