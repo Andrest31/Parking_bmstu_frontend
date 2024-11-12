@@ -1,0 +1,50 @@
+/* Header.css */
+header {
+    display: flex;
+    justify-content: space-between; /* Распределение элементов по краям */
+    align-items: center; /* Выравнивание по вертикали */
+    border-bottom: #ffffff;
+    border-bottom: 2px solid white;
+    height: 110px;
+    background-color: #0000b4;
+    padding: 0px;
+    justify-content: flex-start;
+    position: relative;
+    text-align: center;
+  }
+  
+  .header-left {
+    flex: 1;
+  }
+  
+  .header-center {
+    flex: 2;
+    right: 200px;
+    justify-content: center; /* Центрируем NavBar */
+  }
+  
+  
+  .navbar ul {
+    display: flex;
+    justify-content: right;
+    right: 200px;
+    list-style-type: none;
+    gap: 20px;
+  }
+  
+  .navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+  }
+
+
+header h1 {
+    font-size: 24px;
+    margin: 0;
+    font-family: 'Dela Gothic One', sans-serif;
+    top: 50%;
+    left: 160px;
+    margin: 0;
+    color: white;
+}

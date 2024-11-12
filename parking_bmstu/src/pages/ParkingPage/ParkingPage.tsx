@@ -3,8 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import Breadcrumbs from '../../components/BreadCrumps/BreadCrumps'; // Импортируем компонент Breadcrumbs
 import './ParkingPage.css';
-import { CARDS_DATA } from '../../modules/mock'; // Импортируем мок-данные
+import { CARDS_DATA } from '../../modules/mock';
 import { fetchParkingById } from '../../API/parkingsApi';
 
 const ParkingPage: React.FC = () => {
@@ -19,12 +20,12 @@ const ParkingPage: React.FC = () => {
       setIsLoading(true);
       try {
         const data = await fetchParkingById(Number(id));
-        setParking(data); // Данные из API
+        setParking(data);
       } catch (error) {
         console.error('Ошибка при загрузке парковки:', error);
         setIsError(true);
         const fallbackParking = CARDS_DATA.find((card) => card.id === parseInt(id || '0'));
-        setParking(fallbackParking || null); // Используем мок-данные
+        setParking(fallbackParking || null);
       } finally {
         setIsLoading(false);
       }
@@ -44,6 +45,7 @@ const ParkingPage: React.FC = () => {
   return (
     <div>
       <Header />
+      <Breadcrumbs /> {/* Добавляем Breadcrumbs сюда */}
       <main>
         <div className="hero">
           <h2>Аренда места у {parking.name}</h2>
