@@ -7,21 +7,10 @@ import { CARDS_DATA } from '../../modules/mock';
 
 const ParkingPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const parking = CARDS_DATA.find(card => card.id === parseInt(id || '', 10));
+  const parking = CARDS_DATA.find((card) => card.id === parseInt(id || '0'));
 
   if (!parking) {
-    return (
-      <div>
-        <Header />
-        <main>
-          <div className="error">
-            <h2>Парковка не найдена</h2>
-            <p>Пожалуйста, вернитесь на главную страницу и выберите другую парковку.</p>
-          </div>
-        </main>
-        <Footer />
-      </div>
-    );
+    return <div>Парковка не найдена</div>;
   }
 
   return (
