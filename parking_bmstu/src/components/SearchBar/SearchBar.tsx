@@ -13,7 +13,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ value, onChange, onSubmit }) => {
       className="search-bar"
       onSubmit={(e) => {
         e.preventDefault();
-        onSubmit();
+        onSubmit(); // Вызов метода поиска при нажатии на кнопку
       }}
     >
       <input
@@ -21,7 +21,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ value, onChange, onSubmit }) => {
         className="search"
         placeholder="Поиск"
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value)} // Отправляем изменяемое значение в parent компонент
       />
       <button type="submit" className="submit">Найти</button>
     </form>

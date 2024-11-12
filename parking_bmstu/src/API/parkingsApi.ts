@@ -1,9 +1,8 @@
 // src/API/parkingsApi.ts
 const BASE_URL = 'http://localhost:8000';
 
-export const fetchParkings = async (params: { [key: string]: string } = {}) => {
+export const fetchParkings = async () => {
   const url = new URL(`${BASE_URL}/parkings/`);
-  Object.keys(params).forEach((key) => url.searchParams.append(key, params[key]));
 
   const response = await fetch(url.toString());
   if (!response.ok) {
