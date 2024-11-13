@@ -1,18 +1,24 @@
-// src/pages/GuestPage/GuestPage.tsx
 import React from 'react';
 import Header from '../../components/Header/Header';
 import Breadcrumbs from '../../components/BreadCrumps/BreadCrumps';
-import './GuestPage.css'; // Если нужно, добавьте стили для GuestPage
+import { Container, Row, Col } from 'react-bootstrap';
+import './GuestPage.css';
 
 const GuestPage: React.FC = () => {
   return (
-    <div>
-      <Header /> {/* Добавляем Navbar сюда */}
-      <Breadcrumbs /> {/* Добавляем Breadcrumbs сюда */}
-      <main>
-        <h1>О нас</h1>
-        <p>Информация о нас...</p>
-      </main>
+    <div className="guest-page">
+      <Header />
+      <Breadcrumbs />
+      <div className="background-overlay">
+        <Container className="d-flex justify-content-center align-items-center vh-100">
+          <Row>
+            <Col className="text-center">
+              <h1>Добро пожаловать!</h1>
+              <p>Мы рады видеть вас на нашей странице. Узнайте больше о нас! Данная система предназначена для хранения справочных данных о бронировании парковочных мест. Сотрудник университета, заметивший свободные места на парковке и рассчитавший период нахождения своего транспортного средства или транспортных средств на парковке обращается к сервису с целью регистрации абонемента.</p>
+            </Col>
+          </Row>
+        </Container>
+      </div>
     </div>
   );
 };
