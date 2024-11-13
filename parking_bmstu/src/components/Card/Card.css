@@ -132,6 +132,7 @@ header h1 {
 .categories {
     margin-top: 61px;
     display: flex;
+    font-size: 16px;
     margin-bottom: 20px;
 }
 
@@ -146,6 +147,7 @@ header h1 {
 
 .categories input{
     padding: 2px 23px;
+    font-size: 16px;
 }
 
 .product-list {
@@ -158,11 +160,15 @@ header h1 {
 .product {
     border-radius: 0px;
     box-shadow: 2px 2px black 50%;
+    color:#ffffff ;
+
     text-align: center;
     color: white;
     overflow: hidden; /* Чтобы скрыть часть изображения, выходящую за пределы */
 }
 .product-card {
+    color:#ffffff ;
+
     height: 420px;
     position: relative;
     overflow: hidden; /* Чтобы скрыть часть изображения, выходящую за пределы */
@@ -189,6 +195,8 @@ header h1 {
     z-index: 2; /* Выводим текст на передний план */
     font-family: 'Dela Gothic One', sans-serif;
     font-size: 36px;
+    color:#ffffff ;
+
     text-align: left;
     width: 150px;
     margin:12px 0px 12px 35px;
@@ -220,8 +228,10 @@ header h1 {
     font-size: 24px;
     right: 10px;
     text-align: right;
+    color:#ffffff ;
     width: 340px;
     margin:0px 0px 0px 35px;
+    align-items: bottom;
 }
 .details-link { 
     color: white; /* Белый цвет текста */

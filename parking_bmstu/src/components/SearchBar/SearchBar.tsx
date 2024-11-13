@@ -23,9 +23,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ value, onChange, onSubmit }) => {
         value={value}
         onChange={(e) => onChange(e.target.value)}
       />
-      <Button variant="primary" type="submit" className="submit">
-        Найти
-      </Button>
+      
     </Form>
   );
 };

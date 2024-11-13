@@ -3,16 +3,21 @@
 .search-bar {
     max-width: 500px;
     margin: auto;
+    font-size: 16px;
   }
   
   .search {
     flex-grow: 1; /* Поле поиска займет всю доступную ширину */
     padding: 8px 10px;
+    font-size: 16px;
+
     border-radius: 4px 0 0 4px; /* Круглые края для левой стороны */
   }
   
   .submit {
     padding: 1px;
+    font-size: 16px;
+
     margin-left: 1px;
     border-radius: 0 4px 4px 0; /* Круглые края для правой стороны */
   }

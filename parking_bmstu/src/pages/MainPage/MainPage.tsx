@@ -1,12 +1,13 @@
-// src/pages/MainPage/MainPage.tsx
 import React, { useState, useEffect } from 'react';
+import { Container, Row, Col, Button, Spinner, Alert } from 'react-bootstrap';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import ParkingCard from '../../components/Card/Card';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import { CARDS_DATA } from '../../modules/mock';
 import { fetchParkings } from '../../API/parkingsApi';
-import Breadcrumbs from '../../components/BreadCrumps/BreadCrumps'; // Импортируем компонент Breadcrumbs
+import Breadcrumbs from '../../components/BreadCrumps/BreadCrumps';
+import './MainPage.css'
 
 interface Parking {
   id: number;
@@ -70,13 +71,13 @@ const MainPage: React.FC = () => {
   };
 
   return (
-    <div>
+    <Container fluid>
       <Header />
-      <Breadcrumbs /> {/* Добавляем Breadcrumbs сюда */}
-      <div className="main">
-        <h2>Аренда места</h2>
-        <div className="categories">
-          <p>Время работы:</p>
+      <Breadcrumbs />
+      <main className="main text-center">
+        <h2 className="mb-4">Аренда места</h2>
+        <div className="categories d-flex justify-content-center align-items-center">
+          <p className="mb-0">Время работы:</p>
           <SearchBar
             value={tempSearchTerm}
             onChange={(value) => setTempSearchTerm(value)}
@@ -84,36 +85,39 @@ const MainPage: React.FC = () => {
           />
         </div>
         {isLoading ? (
-          <p>Загрузка парковок...</p>
+          <Spinner animation="border" role="status" className="mt-4">
+            <span className="visually-hidden">Загрузка...</span>
+          </Spinner>
         ) : (
           <div>
             {isError && (
-              <p style={{ color: 'red' }}>
+              <Alert variant="danger">
                 Не удалось подключиться к базе данных. Показаны резервные данные.
-              </p>
+              </Alert>
             )}
             {filteredCards.length === 0 ? (
-              <p>Доступных парковок нет</p>
+              <p className="text-muted">Доступных парковок нет</p>
             ) : (
-              <div className="product-list">
+              <Row className="product-list">
                 {filteredCards.map((card) => (
-                  <ParkingCard
-                    key={card.id}
-                    id={card.id}
-                    name={card.name}
-                    imageCard={card.image_card || 'http://localhost:9000/mini/images/img1.jpg'}
-                    spots={card.sports}
-                    openHour={card.open_hour}
-                    closeHour={card.close_hour}
-                  />
+                  <Col key={card.id} md={4} className="mb-4">
+                    <ParkingCard
+                      id={card.id}
+                      name={card.name}
+                      imageCard={card.image_card || 'http://localhost:9000/mini/images/img1.jpg'}
+                      spots={card.sports}
+                      openHour={card.open_hour}
+                      closeHour={card.close_hour}
+                    />
+                  </Col>
                 ))}
-              </div>
+              </Row>
             )}
           </div>
         )}
-      </div>
+      </main>
       <Footer />
-    </div>
+    </Container>
   );
 };
 
