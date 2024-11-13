@@ -1,21 +1,28 @@
-// Header.tsx
 import React from 'react';
+import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import Navbar from '../NavBar/NavBar'; // Импортируем Navbar
-import './Header.css'; // Добавьте стили для компонента
+import './Header.css';
 
 const Header: React.FC = () => {
   return (
-    <header>
-      <a href="/" className="headout">
-        <div>
-          <Link to={`/`}>
-            <h1>1830</h1>
-          </Link>
-        </div>
-      </a>
+    <header className="header">
+      <div className="header-left">
+        <Link to="/" className="brand-link">
+          <h1>1830</h1>
+        </Link>
+      </div>
       <div className="header-center">
-        <Navbar /> {/* Добавляем Navbar в центр */}
+        <Navbar expand="lg" className="navbar">
+          <Container>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="me-auto nav-links">
+                <Nav.Link as={Link} to="/" className="nav-link">Главная</Nav.Link>
+                <Nav.Link as={Link} to="/about" className="nav-link">О нас</Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Container>
+        </Navbar>
       </div>
     </header>
   );

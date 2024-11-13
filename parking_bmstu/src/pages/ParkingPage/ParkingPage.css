@@ -2,6 +2,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    color: #0000b4;
+    font-size: 24px;
 }
 
 body {
@@ -87,24 +89,25 @@ header h1 {
     z-index: 5; /* Затемнение под текстом */
 }
 
-
 /* Info Cards Layout */
 .info-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Three columns */
-    gap: 20px;
-    height: 200px;
+    display: flex; /* Используем flexbox для размещения карточек в строку */
+    justify-content: space-between; /* Распределяем карточки по ширине */
+    gap: 20px; /* Расстояние между карточками */
     margin: 50px 160px 82px 160px;
 }
 
 .card {
+    padding-left: 30px;
+    padding-top: 30px;
     background-color: #ffffff;
     width: 350px;
-    height:170px;
-    margin: 0px 15px;
+    height: 170px;
+    margin: 0px;
     text-align: left;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1), -2px -2px 5px rgba(0, 0, 0, 0.1); /* Shadow around the card */
     transition: transform 0.3s ease; /* Hover effect */
+    flex-shrink: 0; /* Карточки не должны сжиматься при переполнении */
 }
 
 .card:hover {
@@ -119,10 +122,16 @@ header h1 {
     font-family: 'Dela Gothic One', sans-serif;
 }
 
+/* Стили для заголовков внутри карточек */
+.card .card-body .card-title h5 {
+    color: #0000b4; /* Синий цвет */
+    font-size: 24px; /* Размер шрифта 24px */
+  }
+  
+
 .card p {
     color: black;
     margin-top: 20px;
-    margin-left: 30px;
     font-size: 24px;
     font-family: "DM Sans", sans-serif;
 }
@@ -143,14 +152,13 @@ header h1 {
     margin-bottom: 40px;
 }
 
-
 .legend {
     display: flex;
     align-items: center;
     margin-top: 20px;
     font-family: 'DM Sans', sans-serif;
     font-size: 16px;
-    height:40px;
+    height: 40px;
     margin-bottom: 30px;
     color: black;
 }

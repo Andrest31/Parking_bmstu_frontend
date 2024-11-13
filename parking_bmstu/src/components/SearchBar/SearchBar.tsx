@@ -1,5 +1,5 @@
 import React from 'react';
-import './SearchBar.css';
+import { Form, FormControl, Button } from 'react-bootstrap';
 
 interface SearchBarProps {
   value: string;
@@ -9,22 +9,24 @@ interface SearchBarProps {
 
 const SearchBar: React.FC<SearchBarProps> = ({ value, onChange, onSubmit }) => {
   return (
-    <form
-      className="search-bar"
+    <Form
+      className="d-flex search-bar"
       onSubmit={(e) => {
         e.preventDefault();
         onSubmit(); // Вызов метода поиска при нажатии на кнопку
       }}
     >
-      <input
+      <FormControl
         type="text"
-        className="search"
         placeholder="Поиск"
+        className="me-2 search"
         value={value}
-        onChange={(e) => onChange(e.target.value)} // Отправляем изменяемое значение в parent компонент
+        onChange={(e) => onChange(e.target.value)}
       />
-      <button type="submit" className="submit">Найти</button>
-    </form>
+      <Button variant="primary" type="submit" className="submit">
+        Найти
+      </Button>
+    </Form>
   );
 };
 
