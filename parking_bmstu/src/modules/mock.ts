@@ -17,7 +17,7 @@ export interface Parking {
 export const CARDS_DATA: Parking[] = [
   {
       id: 1,
-      name: 'ГЗ',
+      name: 'ГЗ (мок)',
       place: 'Университет',
       sports: 31,
       open_hour: 8,
@@ -28,7 +28,7 @@ export const CARDS_DATA: Parking[] = [
   },
   {
       id: 2,
-      name: 'Э',
+      name: 'Э (мок)',
       place: 'Университет',
       sports: 20,
       open_hour: 9,
@@ -39,7 +39,7 @@ export const CARDS_DATA: Parking[] = [
   },
   {
       id: 3,
-      name: 'Спектр',
+      name: 'Спектр (мок)',
       place: 'Общежитие',
       sports: 15,
       open_hour: 8,
