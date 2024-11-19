@@ -1,0 +1,27 @@
+{
+    "name": "Parking BMSTU",
+    "short_name": "Parking",
+    "description": "An application to manage parking at BMSTU.",
+    "icons": [
+      {
+        "src": "/icons/icon_1024x1024.png",
+        "type": "image/png",
+        "sizes": "1024x1024"
+      },
+      {
+        "src": "/icons/icon_512x512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      },
+      {
+        "src": "/icons/apple-touch-icon.png",
+        "type": "image/png",
+        "sizes": "192x192"
+      }
+    ],
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#ffffff"
+  }
+  
