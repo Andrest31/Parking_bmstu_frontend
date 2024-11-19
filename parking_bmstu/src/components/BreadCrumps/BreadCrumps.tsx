@@ -10,6 +10,13 @@ const Breadcrumbs: React.FC = () => {
 
   const pathnames = location.pathname.split('/').filter((x) => x);
 
+  // Словарь для перевода маршрутов в читаемые названия
+  const routeNameMap: Record<string, string> = {
+    about: "О нас",
+    contact: "Контакты",
+    // Добавьте другие маршруты, если нужно
+  };
+
   useEffect(() => {
     if (id) {
       const loadParkingName = async () => {
@@ -35,7 +42,9 @@ const Breadcrumbs: React.FC = () => {
           if (value === "parking") return null; // Убираем элемент "Парковка"
 
           const to = `/${pathnames.slice(0, index + 1).join('/')}`;
-          const breadcrumbLabel = id && value === id ? parkingName || id : value;
+          const breadcrumbLabel = id && value === id 
+            ? parkingName || id 
+            : routeNameMap[value] || value; // Используем словарь
 
           return (
             <li key={to} className="breadcrumb-item">
