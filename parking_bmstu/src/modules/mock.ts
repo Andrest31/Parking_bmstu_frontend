@@ -1,5 +1,5 @@
 // mock.ts
-
+const defaultImage = "../../modules/image1";
 // Определяем интерфейс для карточек, совместимый с Parking
 export interface Parking {
   id: number;
@@ -22,8 +22,8 @@ export const CARDS_DATA: Parking[] = [
       sports: 31,
       open_hour: 8,
       close_hour: 21,
-      image_card: 'http://localhost:9000/mini/images/img1.jpg',
-      image: 'http://localhost:9000/mini/images/building1.jpg',
+      image_card: '',
+      image: '',
       status: 'Доступно',
   },
   {
@@ -33,8 +33,8 @@ export const CARDS_DATA: Parking[] = [
       sports: 20,
       open_hour: 9,
       close_hour: 20,
-      image_card: 'http://localhost:9000/mini/images/img2.jpg',
-      image: 'http://localhost:9000/mini/images/building2.jpg',
+      image_card: '',
+      image: '',
       status: 'Доступно',
   },
   {
@@ -44,8 +44,8 @@ export const CARDS_DATA: Parking[] = [
       sports: 15,
       open_hour: 8,
       close_hour: 18,
-      image_card: 'http://localhost:9000/mini/images/img3.jpg',
-      image: 'http://localhost:9000/mini/images/building3.jpg',
+      image_card: '',
+      image: '',
       status: 'Доступно',
   },
 ];

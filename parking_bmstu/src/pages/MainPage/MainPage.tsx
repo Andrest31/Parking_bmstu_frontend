@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, Button, Spinner, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import ParkingCard from '../../components/Card/Card';
@@ -7,7 +7,8 @@ import SearchBar from '../../components/SearchBar/SearchBar';
 import { CARDS_DATA } from '../../modules/mock';
 import { fetchParkings } from '../../API/parkingsApi';
 import Breadcrumbs from '../../components/BreadCrumps/BreadCrumps';
-import './MainPage.css'
+import './MainPage.css';
+import defaultImage from '../../modules/img1.jpg';
 
 interface Parking {
   id: number;
@@ -104,7 +105,7 @@ const MainPage: React.FC = () => {
                     <ParkingCard
                       id={card.id}
                       name={card.name}
-                      imageCard={card.image_card || 'http://localhost:9000/mini/images/img1.jpg'}
+                      imageCard={card.image_card || defaultImage}
                       spots={card.sports}
                       openHour={card.open_hour}
                       closeHour={card.close_hour}
