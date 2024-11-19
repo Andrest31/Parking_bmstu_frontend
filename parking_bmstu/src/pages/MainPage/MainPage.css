@@ -1,37 +1,40 @@
-/* MainPage.css */
-
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #ffffff;
     color: #000;
-}
-
-.main {
+  }
+  
+  .main {
     background-color: #0000b4;
     color: white;
     padding: 0px 160px;
     text-align: center;
-}
-
-h2 {
+  }
+  
+  h2 {
     font-family: 'Dela Gothic One', sans-serif;
-    font-size: 40px;
+    font-size: 20px; /* Размер текста "Аренда места" */
     font-weight: bold;
     color: white;
-}
-
-.categories {
+  }
+  
+  .categories {
     font-size: 16px;
-}
-
-.product-list .col {
+    display: flex;
+    justify-content: left;
+    align-items: left;
+    flex-wrap: wrap; /* Для адаптации */
+  }
+  
+  .product-list .col {
     display: flex;
     justify-content: center;
-}
-
-.cart-button {
+  }
+  
+  
+  .cart-button {
     background-color: #ffffff;
     color: rgb(57, 2, 255);
     border: none;
@@ -41,35 +44,95 @@ h2 {
     border-radius: 5px;
     transition: background-color 0.3s;
     position: relative;
-    top: -75px;
-    left: 515px;
-}
-.d-flex{
-    font-size: 16px;
-}
-.me-2 search form-control{
-    font-size: 16px;
-}
-.cart-button:hover {
+    top: 0;
+    left: 0;
+  }
+  
+  .cart-button:hover {
     background-color: lightgray;
-}
-
-footer {
+  }
+  
+  footer {
     background-color: white;
     color: #0000b4;
     padding: 40px;
     text-align: center;
-}
-
-.mb-0{
-    color:#ffffff;
-}
-
-footer h2 {
+  }
+  
+  footer h2 {
     font-size: 48px;
     color: #0000b4;
     border-bottom: 3px solid rgb(118, 167, 190);
     text-align: left;
     margin-left: 160px;
     margin-right: 760px;
-}
+  }
+  
+  .mb-0 {
+    color: #ffffff;
+  }
+  
+  /* ---------- Адаптивность ---------- */
+  
+  /* Для экранов до 768px (телефоны) */
+  @media (max-width: 768px) {
+    .main {
+      padding: 0px 40px; /* Минимальные отступы */
+    }
+  
+    h2 {
+      font-size: 20px; /* Устанавливаем размер текста */
+    }
+  
+    .product-list .col {
+      width: 100%; /* Карточки занимают всю ширину экрана */
+      margin-bottom: 20px; /* Отступ между карточками */
+    }
+  
+    .categories {
+      font-size: 14px; /* Уменьшаем размер текста */
+      flex-direction: column; /* Категории в столбик */
+      align-items: center;
+    }
+  
+    /* Уменьшаем размер шрифта в карточках продукта */
+    .text {
+      font-size: 14px; /* Устанавливаем размер шрифта 12px для текста */
+      margin-right: 60px;
+      width: 250px;
+    }
+  
+    .name {
+      font-size: 32px;
+      margin: 12px 0px 12px 25px;
+    }
+    footer h2 {
+        margin-left: 40px;
+        margin-right: 40px; /* Минимальные отступы */
+        font-size: 24px; /* Заголовок футера уменьшается */
+        margin-bottom: 20px;
+      }
+    
+      .footer {
+        padding: 20px 0; /* Меньшие отступы */
+      }
+    
+      .footer h2 {
+        font-size: 24px; /* Уменьшаем размер заголовка */
+      }
+    
+      .footer p {
+        font-size: 14px; /* Уменьшаем размер текста */
+        color: #000;
+        margin: 2px 40px;
+        text-align: left;
+
+      }
+    
+      .footer a {
+        color: black;
+        text-decoration: none;
+        font-size: 14px; /* Уменьшаем размер текста в ссылке */
+      }
+  }
+  

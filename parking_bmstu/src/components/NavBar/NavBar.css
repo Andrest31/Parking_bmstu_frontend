@@ -24,3 +24,13 @@
     text-decoration: underline;
   }
   
+
+  @media (max-width: 768px) {
+    .navbar li {
+      font-size: 14px;
+      gap: 10px;
+    }
+    .navbar a {
+      font-size: 10px;
+    }
+  }

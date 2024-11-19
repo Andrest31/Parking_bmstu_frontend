@@ -1,5 +1,4 @@
 // mock.ts
-const defaultImage = "../../modules/image1";
 // Определяем интерфейс для карточек, совместимый с Parking
 export interface Parking {
   id: number;

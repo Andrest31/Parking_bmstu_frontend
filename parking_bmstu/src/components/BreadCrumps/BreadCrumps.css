@@ -21,3 +21,16 @@
   color: #ffffff; /* Белый цвет для разделителя */
   margin: 0 5px;
 }
+
+@media (max-width: 768px) {
+
+  .custom-breadcrumb .breadcrumb-item {
+    font-size: 14px;
+  }
+  .custom-breadcrumb .breadcrumb-item a {
+    font-size: 14px;
+  }
+  .custom-breadcrumb {
+    padding-left: 40px;
+  }
+}

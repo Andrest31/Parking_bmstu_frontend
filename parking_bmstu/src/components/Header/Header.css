@@ -46,3 +46,28 @@
   font-size: 18px;
   text-decoration: none;
 }
+
+@media (max-width: 768px) {
+  .header {
+    height: 80px;
+  }
+
+  .header-center {
+    margin-right: 30px; /* Отступ панели навигации от правого края */
+  }
+  .header-left {
+    margin-left: 30px;
+    font-size: 10px;
+
+  }
+  .brand-link h1 {
+    font-size: 12px;
+    padding: 5.5px 28px;
+  }
+  .nav-link{
+    font-size: 12px;
+  }
+  .nav-links {
+    gap: 10px;
+  }
+}

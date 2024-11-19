@@ -1,0 +1,71 @@
+
+
+.footer {
+    background-color: white;
+    color: #0000b4;
+    padding-bottom: 300px;
+    padding-top: 10px;
+    text-align: center;
+    font-family: 'Dela Gothic One', sans-serif;
+}
+
+.footer h2 {
+    margin-top: 100px;
+    margin-left:160px;
+    margin-right:760px;
+    padding-bottom: 20px;
+    font-size: 48px;
+    border-bottom: 3px solid rgb(118, 167, 190);
+    text-align: left;
+}
+
+.footer p {
+    font-size: 20px;
+    text-align: left;
+    margin: 0px 160px;
+    color: #000000;
+}
+
+.footer a {
+    color: #000000;
+    text-decoration: none;
+    font-size: 20px;
+    text-align: left;
+}
+
+
+@media (max-width: 768px) {
+    
+    footer h2 {
+        margin-left: 40px;
+        margin-right: 40px; /* Минимальные отступы */
+        font-size: 24px; /* Заголовок футера уменьшается */
+        margin-bottom: 20px;
+      }
+    
+      .footer {
+        padding: 20px 0; /* Меньшие отступы */
+      }
+    
+      .footer h2 {
+        margin-left: 40px;
+        margin-right: 40px;
+        margin-top: 20px;
+        font-size: 24px; /* Уменьшаем размер заголовка */
+      }
+    
+      .footer p {
+        font-size: 14px; /* Уменьшаем размер текста */
+        color: #000;
+        margin: 2px 40px;
+        text-align: left;
+
+      }
+    
+      .footer a {
+        color: black;
+        text-decoration: none;
+        font-size: 14px; /* Уменьшаем размер текста в ссылке */
+      }
+  }
+  

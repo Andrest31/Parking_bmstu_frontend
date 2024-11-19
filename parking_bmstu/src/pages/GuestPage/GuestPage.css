@@ -1,6 +1,7 @@
+/* Базовые стили */
 .guest-page {
   position: relative;
-  height: 1000px;
+  height: 1000px; /* Сохраняем фиксированную высоту, как было */
   background-image: url('../../modules/fill.jpg'); /* Путь к изображению фона */
   background-size: cover;
   background-position: center;
@@ -9,13 +10,14 @@
 
 .background-overlay {
   position: absolute;
-  top: 220;
+  top: 157px; /* Оригинальный отступ сверху */
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7); /* Чёрная заливка с 50% прозрачности */
+  background-color: rgba(0, 0, 0, 0.7); /* Чёрная заливка с прозрачностью */
 }
 
+/* Стили для заголовка */
 h1 {
   color: white;
   margin-top: 50px;
@@ -25,6 +27,7 @@ h1 {
   font-family: 'Dela Gothic One', sans-serif;
 }
 
+/* Стили для параграфа */
 p {
   color: white;
   text-align: center;
@@ -32,3 +35,34 @@ p {
   margin: 50px 300px;
   font-family: Arial, sans-serif;
 }
+
+/* Адаптивные стили */
+
+
+/* Для устройств шириной до 768px (телефоны в портретной ориентации) */
+@media (max-width: 768px) {
+
+  .background-overlay {
+    top: 117px; /* Оригинальный отступ сверху */
+  }
+  .bread{
+    font-size: 10px; /* Ещё меньше заголовок */
+
+  }
+  .custom-breadcrumb{
+    font-size: 10px; /* Ещё меньше заголовок */
+
+  }
+  h1 {
+    font-size: 24px; /* Ещё меньше заголовок */
+    padding: 0 20px; /* Убираем крупные отступы */
+    margin-top: 70px; /* Уменьшаем верхний отступ */
+  }
+
+  p {
+    font-size: 12px; /* Уменьшаем текст */
+    margin: 20px 20px; /* Минимизируем боковые отступы */
+  }
+}
+
+/* Для устройств шириной до 576px (телефоны в альбомной ориентации) */

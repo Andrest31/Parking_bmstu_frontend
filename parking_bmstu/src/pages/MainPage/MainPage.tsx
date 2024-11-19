@@ -103,7 +103,7 @@ const MainPage: React.FC = () => {
             ) : (
               <Row className="product-list">
                 {filteredCards.map((card) => (
-                  <Col key={card.id} md={4} className="mb-4">
+                  <Col key={card.id} xs={12} md={4} className="mb-4"> {/* xs=12 для отображения в одну колонку на узких экранах */}
                     <ParkingCard
                       id={card.id}
                       name={card.name}
@@ -115,6 +115,7 @@ const MainPage: React.FC = () => {
                   </Col>
                 ))}
               </Row>
+
             )}
           </div>
         )}
