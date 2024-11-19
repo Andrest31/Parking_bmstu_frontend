@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '../../store/store';
+import { setSearchTerm } from '../../store/features/filtersSlice';
 import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
@@ -23,12 +26,13 @@ interface Parking {
 }
 
 const MainPage: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [tempSearchTerm, setTempSearchTerm] = useState('');
+  const dispatch = useDispatch();
+  const searchTerm = useSelector((state: RootState) => state.filters.searchTerm);
+  const [tempSearchTerm, setTempSearchTerm] = useState(searchTerm); // Временное значение для инпута
   const [parkings, setParkings] = useState<Parking[]>(CARDS_DATA);
+  const [filteredCards, setFilteredCards] = useState<Parking[]>(CARDS_DATA);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
-  const [filteredCards, setFilteredCards] = useState<Parking[]>(CARDS_DATA);
 
   useEffect(() => {
     const fetchParkingList = async () => {
@@ -38,7 +42,6 @@ const MainPage: React.FC = () => {
         const data = await fetchParkings();
         setParkings(data);
         setFilteredCards(data);
-        filterByTime(data, '');
       } catch (error) {
         console.error('Ошибка при загрузке парковок:', error);
         setIsError(true);
@@ -52,23 +55,22 @@ const MainPage: React.FC = () => {
     fetchParkingList();
   }, []);
 
-  const filterByTime = (parkings: Parking[], time: string) => {
-    const searchTime = parseInt(time);
-
-    if (isNaN(searchTime)) {
-      setFilteredCards(parkings);
-    } else {
-      const timeFiltered = parkings.filter(
-        (card) => card.open_hour <= searchTime && card.close_hour >= searchTime
-      );
-      const sortedFilteredCards = [...timeFiltered].sort((a, b) => a.id - b.id);
-      setFilteredCards(sortedFilteredCards);
-    }
-  };
-
   const handleSearchSubmit = () => {
-    setSearchTerm(tempSearchTerm);
-    filterByTime(parkings, tempSearchTerm);
+    dispatch(setSearchTerm(tempSearchTerm)); // Устанавливаем значение фильтра только при отправке
+    const filterByTime = (parkings: Parking[], time: string) => {
+      const searchTime = parseInt(time, 10);
+
+      if (isNaN(searchTime)) {
+        return parkings; // Если время не введено, показываем все парковки
+      }
+
+      return parkings.filter(
+        (parking) => parking.open_hour <= searchTime && parking.close_hour >= searchTime
+      );
+    };
+
+    const filtered = filterByTime(parkings, tempSearchTerm);
+    setFilteredCards(filtered);
   };
 
   return (
@@ -81,8 +83,8 @@ const MainPage: React.FC = () => {
           <p className="mb-0">Время работы:</p>
           <SearchBar
             value={tempSearchTerm}
-            onChange={(value) => setTempSearchTerm(value)}
-            onSubmit={handleSearchSubmit}
+            onChange={(value) => setTempSearchTerm(value)} // Обновляем временное значение
+            onSubmit={handleSearchSubmit} // Фильтруем только при нажатии Enter
           />
         </div>
         {isLoading ? (
