@@ -4,11 +4,18 @@
   "version": "0.0.0",
   "type": "module",
   "proxy": "http://localhost:8000",
+  "homepage": "https://Andrest31.github.io/Parking_bmstu_frontend",
+
   "scripts": {
+    "start": "react-scripts start",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
   },
   "dependencies": {
     "react": "^18.3.1",

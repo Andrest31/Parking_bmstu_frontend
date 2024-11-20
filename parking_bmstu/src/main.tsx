@@ -10,8 +10,8 @@ if (process.env.NODE_ENV === 'production') {
   // Проверка, поддерживает ли браузер сервис-воркеры
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker
-        .register('/service-worker.js')  // Путь к вашему сервис-воркеру
+      // Регистрация сервис-воркера с учетом базового пути
+      navigator.serviceWorker.register('/Parking_bmstu_frontend/service-worker.js') // Укажите корректный путь
         .then((registration) => {
           console.log('Service Worker зарегистрирован с областью: ', registration.scope);
         })
