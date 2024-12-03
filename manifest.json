@@ -2,24 +2,38 @@
     "name": "Parking BMSTU",
     "short_name": "Parking",
     "description": "An application to manage parking at BMSTU.",
-    "start_url": "/Parking_bmstu_frontend/",
-  "icons": [
+    "icons": [
+      {
+        "src": "/icons/icon_1024x1024.png",
+        "type": "image/png",
+        "sizes": "1024x1024"
+      },
+      {
+        "src": "/icons/icon_512x512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      },
+      {
+        "src": "/icons/apple-touch-icon.png",
+        "type": "image/png",
+        "sizes": "180x180"
+      }
+    ],
+    "screenshots": [
     {
-      "src": "/Parking_bmstu_frontend/icons/icon_1024x1024.png",
-      "type": "image/png",
-      "sizes": "1024x1024"
+        "src": "screenshot-wide.png",
+        "sizes": "1902x918",
+        "type": "image/png",
+        "form_factor": "wide"
     },
     {
-      "src": "/Parking_bmstu_frontend/icons/icon_512x512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    },
-    {
-      "src": "/Parking_bmstu_frontend/icons/apple-touch-icon.png",
-      "type": "image/png",
-      "sizes": "192x192"
+        "src": "screenshot-mobile.png",
+        "sizes": "591x1280",
+        "type": "image/png",
+        "form_factor": "narrow"
     }
-  ],
+],
+    "start_url": "/",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#ffffff"
