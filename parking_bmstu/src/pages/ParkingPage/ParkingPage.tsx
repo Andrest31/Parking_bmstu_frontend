@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Row, Col, Card, Image, Breadcrumb, Spinner, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Card, Image, Spinner, Alert } from 'react-bootstrap';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Breadcrumbs from '../../components/BreadCrumps/BreadCrumps';

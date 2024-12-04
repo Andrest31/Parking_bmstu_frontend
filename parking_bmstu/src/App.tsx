@@ -6,7 +6,7 @@ import GuestPage from './pages/GuestPage/GuestPage';
 
 const App: React.FC = () => {
   return (
-    <Router>
+    <Router basename="/Parking_bmstu_frontend">
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/about" element={<GuestPage />} />
