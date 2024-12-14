@@ -1,7 +1,8 @@
+// src/pages/MainPage/MainPage.tsx
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
-import { setSearchTerm } from '../../store/features/filtersSlice';
+import { setSearchTerm } from '../../store/features/filtersSlice'; // Импорт экшена
 import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
@@ -27,13 +28,14 @@ interface Parking {
 
 const MainPage: React.FC = () => {
   const dispatch = useDispatch();
-  const searchTerm = useSelector((state: RootState) => state.filters.searchTerm);
-  const [tempSearchTerm, setTempSearchTerm] = useState(searchTerm); // Временное значение для инпута
+  const searchTerm = useSelector((state: RootState) => state.filters.searchTerm); // Получаем поисковый запрос из Redux
+  const [tempSearchTerm, setTempSearchTerm] = useState(searchTerm); // Локальное состояние для инпута
   const [parkings, setParkings] = useState<Parking[]>(CARDS_DATA);
   const [filteredCards, setFilteredCards] = useState<Parking[]>(CARDS_DATA);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
+  // Загружаем парковки при монтировании компонента
   useEffect(() => {
     const fetchParkingList = async () => {
       setIsError(false);
@@ -41,12 +43,10 @@ const MainPage: React.FC = () => {
       try {
         const data = await fetchParkings();
         setParkings(data);
-        setFilteredCards(data);
       } catch (error) {
         console.error('Ошибка при загрузке парковок:', error);
         setIsError(true);
-        setParkings(CARDS_DATA);
-        setFilteredCards(CARDS_DATA);
+        setParkings(CARDS_DATA); // Загружаем резервные данные в случае ошибки
       } finally {
         setIsLoading(false);
       }
@@ -55,13 +55,16 @@ const MainPage: React.FC = () => {
     fetchParkingList();
   }, []);
 
-  const handleSearchSubmit = () => {
-    dispatch(setSearchTerm(tempSearchTerm)); // Устанавливаем значение фильтра только при отправке
+  // Применение фильтрации при изменении searchTerm в Redux
+  useEffect(() => {
+    setTempSearchTerm(searchTerm); // Сохраняем фильтр из Redux в локальном состоянии
+
+    // Применяем фильтрацию
     const filterByTime = (parkings: Parking[], time: string) => {
       const searchTime = parseInt(time, 10);
 
-      if (isNaN(searchTime)) {
-        return parkings; // Если время не введено, показываем все парковки
+      if (isNaN(searchTime) || time === '') {
+        return parkings; // Если не введено время, возвращаем все парковки
       }
 
       return parkings.filter(
@@ -69,8 +72,12 @@ const MainPage: React.FC = () => {
       );
     };
 
-    const filtered = filterByTime(parkings, tempSearchTerm);
-    setFilteredCards(filtered);
+    const filtered = filterByTime(parkings, searchTerm);
+    setFilteredCards(filtered); // Применяем фильтрацию к отфильтрованным данным
+  }, [searchTerm, parkings]); // Запускать фильтрацию при изменении searchTerm или parkings
+
+  const handleSearchSubmit = () => {
+    dispatch(setSearchTerm(tempSearchTerm)); // Устанавливаем значение фильтра в Redux при отправке
   };
 
   return (
@@ -115,7 +122,6 @@ const MainPage: React.FC = () => {
                   </Col>
                 ))}
               </Row>
-
             )}
           </div>
         )}

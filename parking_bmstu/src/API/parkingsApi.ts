@@ -1,4 +1,5 @@
 // src/API/parkingsApi.ts
+
 export const fetchParkings = async () => {
   const response = await fetch('/parkings');  // Здесь используем относительный путь
   if (!response.ok) {
