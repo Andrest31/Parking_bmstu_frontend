@@ -71,6 +71,9 @@ body {
   .mb-0 {
     color: #ffffff;
   }
+  .mb-4 {
+    margin-bottom: 50px;
+  }
   
   /* ---------- Адаптивность ---------- */
   

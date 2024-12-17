@@ -2,8 +2,9 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
-import { setSearchTerm } from '../../store/features/filtersSlice'; // Импорт экшена
-import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap';
+import { setSearchTerm } from '../../store/features/filtersSlice';
+import { addToCart } from '../../store/cartSlice'; // Импорт экшена для добавления в корзину
+import { Container, Row, Col, Spinner, Alert, Button } from 'react-bootstrap';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import ParkingCard from '../../components/Card/Card';
@@ -28,14 +29,13 @@ interface Parking {
 
 const MainPage: React.FC = () => {
   const dispatch = useDispatch();
-  const searchTerm = useSelector((state: RootState) => state.filters.searchTerm); // Получаем поисковый запрос из Redux
-  const [tempSearchTerm, setTempSearchTerm] = useState(searchTerm); // Локальное состояние для инпута
+  const searchTerm = useSelector((state: RootState) => state.filters.searchTerm);
+  const [tempSearchTerm, setTempSearchTerm] = useState(searchTerm);
   const [parkings, setParkings] = useState<Parking[]>(CARDS_DATA);
   const [filteredCards, setFilteredCards] = useState<Parking[]>(CARDS_DATA);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
 
-  // Загружаем парковки при монтировании компонента
   useEffect(() => {
     const fetchParkingList = async () => {
       setIsError(false);
@@ -46,7 +46,7 @@ const MainPage: React.FC = () => {
       } catch (error) {
         console.error('Ошибка при загрузке парковок:', error);
         setIsError(true);
-        setParkings(CARDS_DATA); // Загружаем резервные данные в случае ошибки
+        setParkings(CARDS_DATA);
       } finally {
         setIsLoading(false);
       }
@@ -55,16 +55,14 @@ const MainPage: React.FC = () => {
     fetchParkingList();
   }, []);
 
-  // Применение фильтрации при изменении searchTerm в Redux
   useEffect(() => {
-    setTempSearchTerm(searchTerm); // Сохраняем фильтр из Redux в локальном состоянии
+    setTempSearchTerm(searchTerm);
 
-    // Применяем фильтрацию
     const filterByTime = (parkings: Parking[], time: string) => {
       const searchTime = parseInt(time, 10);
 
       if (isNaN(searchTime) || time === '') {
-        return parkings; // Если не введено время, возвращаем все парковки
+        return parkings;
       }
 
       return parkings.filter(
@@ -73,11 +71,15 @@ const MainPage: React.FC = () => {
     };
 
     const filtered = filterByTime(parkings, searchTerm);
-    setFilteredCards(filtered); // Применяем фильтрацию к отфильтрованным данным
-  }, [searchTerm, parkings]); // Запускать фильтрацию при изменении searchTerm или parkings
+    setFilteredCards(filtered);
+  }, [searchTerm, parkings]);
 
   const handleSearchSubmit = () => {
-    dispatch(setSearchTerm(tempSearchTerm)); // Устанавливаем значение фильтра в Redux при отправке
+    dispatch(setSearchTerm(tempSearchTerm));
+  };
+
+  const handleAddToCart = (card: Parking) => {
+    dispatch(addToCart({ id: card.id, name: card.name, imageCard: card.image_card || defaultImage }));
   };
 
   return (
@@ -90,8 +92,8 @@ const MainPage: React.FC = () => {
           <p className="mb-0">Время работы:</p>
           <SearchBar
             value={tempSearchTerm}
-            onChange={(value) => setTempSearchTerm(value)} // Обновляем временное значение
-            onSubmit={handleSearchSubmit} // Фильтруем только при нажатии Enter
+            onChange={(value) => setTempSearchTerm(value)}
+            onSubmit={handleSearchSubmit}
           />
         </div>
         {isLoading ? (
@@ -110,7 +112,7 @@ const MainPage: React.FC = () => {
             ) : (
               <Row className="product-list">
                 {filteredCards.map((card) => (
-                  <Col key={card.id} xs={12} md={4} className="mb-4"> {/* xs=12 для отображения в одну колонку на узких экранах */}
+                  <Col key={card.id} xs={12} md={4} className="mb-4">
                     <ParkingCard
                       id={card.id}
                       name={card.name}
@@ -119,6 +121,9 @@ const MainPage: React.FC = () => {
                       openHour={card.open_hour}
                       closeHour={card.close_hour}
                     />
+                    <Button variant="primary" name="Wad" onClick={() => handleAddToCart(card)}>
+                      Добавить в корзину
+                    </Button>
                   </Col>
                 ))}
               </Row>

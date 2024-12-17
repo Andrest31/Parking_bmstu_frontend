@@ -167,7 +167,7 @@ header h1 {
 }
 .product-card {
     color:#ffffff ;
-    height: 420px;
+    height: 320px;
     position: relative;
     overflow: hidden; /* Чтобы скрыть часть изображения, выходящую за пределы */
 }
