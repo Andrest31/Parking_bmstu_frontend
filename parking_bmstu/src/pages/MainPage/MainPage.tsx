@@ -51,16 +51,28 @@ const MainPage: React.FC = () => {
   const addToDraft = async (card: Parking) => {
     try {
       // Замените URL на ваш реальный URL для добавления парковки в черновик
-      const response = await axios.post(`http://127.0.0.1:8000/parkings/${card.id}/add-to-draft/`, {
-        status: 'draft',
-        // Можно добавить дополнительные данные, если необходимо
-      });
+      const response = await axios.post(
+        `http://127.0.0.1:8000/parkings/${card.id}/add-to-draft/`,
+        { status: 'draft' }, // Тело запроса
+        {
+          auth: {
+            username: 'Admin',  // Логин
+            password: 'Admin',  // Пароль
+          },
+        }
+      );
       return response.data; // Ответ сервера с информацией о добавленной парковке
     } catch (error) {
-      console.error('Ошибка при добавлении парковки в черновик:', error);
+      if (axios.isAxiosError(error)) {
+        console.error('Ошибка при добавлении парковки в черновик:', error.response?.data || error.message);
+      } else {
+        console.error('Неизвестная ошибка:', (error as Error).message);
+      }
       return null;
     }
+    
   };
+  
 
   useEffect(() => {
     const fetchParkingList = async () => {

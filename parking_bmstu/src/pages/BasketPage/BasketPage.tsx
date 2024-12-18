@@ -23,8 +23,19 @@ const BasketPage: React.FC = () => {
     dispatch(removeFromCart(id));
   };
 
-  const handleClearCart = () => {
-    dispatch(clearCart());
+  const handleClearCart = async () => {
+    try {
+      await axios.post(
+        'http://127.0.0.1:8000/cart/clear/',
+        {}, // Пустое тело
+        { auth: { username: 'Admin', password: 'Admin' } }
+      );
+  
+      console.log('Корзина на сервере очищена');
+      dispatch(clearCart()); // Очищаем корзину в Redux
+    } catch (error) {
+      console.error('Ошибка при очистке корзины на сервере:', error);
+    }
   };
 
   const handleUpdateQuantity = (id: number, quantity: number) => {

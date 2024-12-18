@@ -24,14 +24,15 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart: (state, action: PayloadAction<Omit<CartItem, 'quantity' | 'place' | 'spots'>>) => {
-      const newItem = {
-        ...action.payload,
-        quantity: 1,  // По умолчанию количество 1
-        place: 'ГЗ',  // Например, 'ГЗ' как место
-        spots: 1,     // Количество мест, предположительно 1
-      };
-      state.items.push(newItem);
+    addToCart: (state, action: PayloadAction<CartItem>) => {
+      const existingItem = state.items.find((item) => item.id === action.payload.id);
+      if (existingItem) {
+        // Если товар уже есть в корзине, увеличиваем его количество
+        existingItem.quantity += 1;
+      } else {
+        // Иначе добавляем новый товар с quantity = 1
+        state.items.push({ ...action.payload, quantity: 1 });
+      }
     },
     removeFromCart: (state, action: PayloadAction<number>) => {
       state.items = state.items.filter((item) => item.id !== action.payload);
