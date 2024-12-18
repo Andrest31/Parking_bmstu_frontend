@@ -8,6 +8,7 @@ import RegisterPage from './pages/RegiserPage/RegisterPage';
 import BasketPage from './pages/BasketPage/BasketPage';
 import TablePage from './pages/TablePage/TablePage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
+import PassDetailPage from './pages/PassDetailPage/PassDetailPage';
 import {dest_root} from "../target_config"
 
 
@@ -36,7 +37,8 @@ const App: React.FC = () => {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/about" element={<GuestPage />} />
         <Route path="/cart" element={<BasketPage />} />
-        <Route path="/table" element={<TablePage />} />
+        <Route path="/passes" element={<TablePage />} />
+        <Route path="/passes/:orderId" element={<PassDetailPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route
           path="/parking/:id"

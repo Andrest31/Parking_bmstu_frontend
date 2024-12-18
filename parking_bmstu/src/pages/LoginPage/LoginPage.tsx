@@ -29,16 +29,10 @@ const LoginPage: React.FC = () => {
     // Диспатчим экшен loginUser с переданными данными
     const result = await dispatch(loginUser({ username, password }));
 
-  
       // Формируем строку для базовой аутентификации
     
       // Отправляем запрос с заголовком Authorization
-      await apiInstance.login.loginCreate({ username, password }, {
-          withCredentials: true,
-          headers: {
-              'Content-Type': 'application/json',
-          }
-      });
+      
 
 
     // Если авторизация успешна (получен fulfilled ответ)
@@ -73,7 +67,7 @@ const LoginPage: React.FC = () => {
 
           {/* Поле для password */}
           <Form.Group controlId="password" className="mb-3">
-            <Form.Label>Пароль</Form.Label>
+            <Form.Label>Password</Form.Label>
             <Form.Control
               type="password"
               placeholder="Введите пароль"

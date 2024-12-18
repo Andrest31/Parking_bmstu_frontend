@@ -1,71 +1,72 @@
-// src/pages/OrdersPage/OrdersPage.tsx
-
 import React, { useState, useEffect } from 'react';
-import { Table, Container, Row, Col, Button, Spinner, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Button, Spinner, Alert, Table } from 'react-bootstrap';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import { Api } from '../../API/Api';
+import axios from 'axios';
 import './TablePage.css';
+import { Link } from 'react-router-dom';
 
-// Интерфейс для данных, получаемых из API
 interface Pass {
   id: number;
-  start_date: string; // Дата начала
-  location?: string; // Место (например, "ГЗ" или "Г2")
-  spots: number; // Количество мест
-  status: string; // Статус заявки
+  created_at: string; // Дата создания
+  planned_deadline: string; // Планируемый дедлайн
+  license_plate: string; // Номерной знак
+  status: string; // Статус
+  client_name: string; // ФИО клиента
+  total_quantity: number; // Общее количество мест
 }
 
-// Интерфейс для отображаемых заказов
 interface Order {
   id: number;
-  date: string;
-  place: string;
-  spots: number;
+  createdAt: string;
+  plannedDeadline: string;
+  licensePlate: string;
   status: string;
+  client_name: string;
 }
 
 const OrdersPage: React.FC = () => {
-  const [orders, setOrders] = useState<Order[]>([]); // Заказы пользователя
-  const [loading, setLoading] = useState<boolean>(true); // Состояние загрузки
-  const [error, setError] = useState<string | null>(null); // Ошибка загрузки
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const apiInstance = new Api();
-
-  // Загрузка заказов при монтировании компонента
   useEffect(() => {
-    // Загрузка данных с API
-const fetchOrders = async () => {
-  try {
-    const queryParams = {
-      start_date: '2024-01-01',
-      end_date: '2024-12-31',
-      status: 'completed',
+    const fetchOrders = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/passes/', {
+          params: {
+            start_date: '2024-01-01',
+            end_date: '2024-12-31',
+            status: 'formed',
+          },
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        console.log(response); // Проверьте вывод данных в консоли
+
+
+        const passes = response.data as Pass[];
+        const transformedOrders: Order[] = passes.map((pass) => ({
+          id: pass.id,
+          createdAt: pass.created_at || 'Не указана',
+          plannedDeadline: pass.planned_deadline || 'Не указана',
+          licensePlate: pass.license_plate || 'Не указано',
+          status: pass.status || 'Неизвестно',
+          client_name: pass.client_name || 'Не указано',
+        }));
+
+        setOrders(transformedOrders);
+        console.log(transformedOrders); // Проверьте вывод данных в консоли
+      } catch (error) {
+        console.error('Ошибка при загрузке заказов:', error);
+        setError('Ошибка загрузки заказов.');
+      } finally {
+        setLoading(false);
+      }
     };
 
-    // Явно указываем тип для response.data
-    const response = await apiInstance.passes.passesList(queryParams);
-    const passes = response.data as Pass[]; // Явное указание типа
-
-    // Преобразуем Pass[] в Order[]
-    const transformedOrders: Order[] = passes.map((pass: Pass) => ({
-      id: pass.id,
-      date: pass.start_date || 'Не указана',
-      place: pass.location || 'Не указано',
-      spots: pass.spots || 0,
-      status: pass.status || 'Неизвестно',
-    }));
-
-    setOrders(transformedOrders);
-  } catch (error) {
-    setError('Ошибка загрузки заказов.');
-  } finally {
-    setLoading(false);
-  }
-};
-
-
-    fetchOrders(); // Вызов функции
+    fetchOrders();
   }, []);
 
   return (
@@ -74,54 +75,49 @@ const fetchOrders = async () => {
       <main className="main text-center">
         <h2 className="mb-4">Мои заказы</h2>
 
-        {/* Спиннер загрузки */}
         {loading && <Spinner animation="border" variant="primary" />}
-
-        {/* Сообщение об ошибке */}
         {error && <Alert variant="danger">{error}</Alert>}
 
-        {/* Таблица заказов */}
         {!loading && !error && (
-          <Row>
-            <Col xs={12} className="mb-4">
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>ID заказа</th>
-                    <th>Дата</th>
-                    <th>Место</th>
-                    <th>Количество мест</th>
-                    <th>Статус</th>
-                    <th>Действия</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orders.length === 0 ? (
+          <Row classname="Rows">
+            {orders.length === 0 ? (
+              <Col>
+                <Alert variant="info">Нет заказов</Alert>
+              </Col>
+            ) : (
+              <Col xs={12}>
+                <Table striped bordered hover responsive>
+                  <thead>
                     <tr>
-                      <td colSpan={6}>Нет заказов</td>
+                      <th>Абонемент</th>
+                      <th>Срок действия</th>
+                      <th>Номерной знак</th>
+                      <th>Статус</th>
+                      <th>ФИО клиента</th>
+                      <th>Действия</th>
                     </tr>
-                  ) : (
-                    orders.map((order) => (
+                  </thead>
+                  <tbody>
+                    {orders.map((order) => (
                       <tr key={order.id}>
                         <td>{order.id}</td>
-                        <td>{order.date}</td>
-                        <td>{order.place}</td>
-                        <td>{order.spots}</td>
+                        <td>{order.plannedDeadline}</td>
+                        <td>{order.licensePlate}</td>
                         <td>{order.status}</td>
+                        <td>{order.client_name}</td>
                         <td>
+                        <Link to={`/passes/${order.id}`}>
                           <Button variant="primary" size="sm" className="me-2">
                             Подробнее
                           </Button>
-                          <Button variant="danger" size="sm">
-                            Отменить
-                          </Button>
+                        </Link>
                         </td>
                       </tr>
-                    ))
-                  )}
-                </tbody>
-              </Table>
-            </Col>
+                    ))}
+                  </tbody>
+                </Table>
+              </Col>
+            )}
           </Row>
         )}
       </main>

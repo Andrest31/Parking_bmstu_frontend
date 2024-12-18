@@ -10,7 +10,7 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',  
     proxy: {
-      "/parkings": {
+      "/api": {
         target: api_proxy_addr,
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, "/"),

@@ -3,7 +3,7 @@
 export const fetchParkings = async () => {
   const createFetchFunction = new Function(
     'return async function fetchData() {' +
-      'const response = await fetch("/parkings");' +
+      'const response = await fetch("/api/parkings");' +
       'if (!response.ok) {' +
         'throw new Error("Ошибка загрузки парковок");' +
       '}' +

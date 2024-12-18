@@ -1,9 +1,10 @@
 // src/store/userSlice.ts
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
+import { api } from '../API';
 
 interface UserState {
-  user: null | { username: string };
+  user: null | string ;
   loading: boolean;
   error: string | null;
 }
@@ -39,7 +40,12 @@ export const loginUser = createAsyncThunk(
   'user/loginUser',
   async (credentials: { username: string; password: string }) => {
     try {
-      const response = await axios.post('/api/login', credentials); // API запрос на авторизацию
+      const response = await api.login.loginCreate({ username:credentials.username, password:credentials.password }, {
+        withCredentials: true,
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    }); // API запрос на авторизацию
       return response.data; // Возвращаем данные из ответа
     } catch (error) {
       // Приводим ошибку к типу AxiosError и извлекаем сообщение
@@ -65,7 +71,7 @@ const userSlice = createSlice({
       })
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
-        state.user = action.payload; // Присваиваем полученного пользователя
+        state.user = action.payload.username || null; // Присваиваем полученного пользователя
         state.error = null;
       })
       .addCase(loginUser.rejected, (state, action) => {
