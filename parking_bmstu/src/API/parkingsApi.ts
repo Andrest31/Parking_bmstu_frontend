@@ -3,7 +3,10 @@
 export const fetchParkings = async () => {
   const createFetchFunction = new Function(
     'return async function fetchData() {' +
-      'const response = await fetch("/api/parkings");' +
+      'const response = await fetch("/api/parkings", {' +
+        'method: "GET",' +
+        'credentials: "include"' + // Добавляем cookies
+      '});' +
       'if (!response.ok) {' +
         'throw new Error("Ошибка загрузки парковок");' +
       '}' +
@@ -11,6 +14,7 @@ export const fetchParkings = async () => {
       'return Array.isArray(data) ? data : data.parkings || [];' +
     '}'
   );
+  
 
   const fetchData = createFetchFunction();
   return await fetchData();

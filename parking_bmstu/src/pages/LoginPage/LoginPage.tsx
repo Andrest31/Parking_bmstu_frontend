@@ -32,7 +32,12 @@ const LoginPage: React.FC = () => {
       // Формируем строку для базовой аутентификации
     
       // Отправляем запрос с заголовком Authorization
-      
+      await apiInstance.login.loginCreate({ username, password }, {
+          withCredentials: true,
+          headers: {
+              'Content-Type': 'application/json',
+          }
+      });
 
 
     // Если авторизация успешна (получен fulfilled ответ)

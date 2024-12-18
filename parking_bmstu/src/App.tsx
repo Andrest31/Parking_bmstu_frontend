@@ -9,6 +9,8 @@ import BasketPage from './pages/BasketPage/BasketPage';
 import TablePage from './pages/TablePage/TablePage';
 import ProfilePage from './pages/ProfilePage/ProfilePage';
 import PassDetailPage from './pages/PassDetailPage/PassDetailPage';
+import ErrorPage from './pages/ErrorPage/ErrorPage';
+
 import {dest_root} from "../target_config"
 
 
@@ -40,6 +42,7 @@ const App: React.FC = () => {
         <Route path="/passes" element={<TablePage />} />
         <Route path="/passes/:orderId" element={<PassDetailPage />} />
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/error" element={<ErrorPage />} />
         <Route
           path="/parking/:id"
           element={<ParkingPage />}
