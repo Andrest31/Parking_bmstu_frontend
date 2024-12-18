@@ -1,5 +1,3 @@
-// src/pages/CartPage/CartPage.tsx
-
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
@@ -7,6 +5,7 @@ import { removeFromCart, clearCart, updateQuantity } from '../../store/cartSlice
 import { Container, Row, Col, Button, Alert, Form } from 'react-bootstrap';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import axios from 'axios'; // Импортируем axios для выполнения запросов
 import './BasketPage.css';
 
 const BasketPage: React.FC = () => {
@@ -16,6 +15,9 @@ const BasketPage: React.FC = () => {
   const [clientName, setClientName] = useState('');
   const [licensePlate, setLicensePlate] = useState('');
   const [subscriptionExpiry, setSubscriptionExpiry] = useState('');
+
+  // Здесь предполагаем, что `id` абонемента передается из корзины, например, это может быть ID товара.
+  const passId = 123; // Этот ID должен быть получен динамически (например, через URL или как-то еще)
 
   const handleRemoveItem = (id: number) => {
     dispatch(removeFromCart(id));
@@ -31,19 +33,48 @@ const BasketPage: React.FC = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Здесь можно добавить проверку на валидность введенных данных
+    // Проверяем, заполнены ли все поля формы
     if (!clientName || !licensePlate || !subscriptionExpiry) {
-      alert("Пожалуйста, заполните все поля.");
+      alert('Пожалуйста, заполните все поля.');
       return;
     }
 
-    // Обработаем данные клиента (например, отправим на сервер или сохраним в состоянии)
-    console.log("Информация клиента:", { clientName, licensePlate, subscriptionExpiry });
+    // Формируем объект заказа
+    const order = {
+      clientName,
+      licensePlate,
+      subscriptionExpiry,
+      cartItems,
+    };
 
-    // Очистим поля после отправки формы
+    try {
+      // Отправляем запрос на создание заказа
+      const response = await axios.put(
+        `http://127.0.0.1:8000/passes/${passId}/form/`, // Используем passId в URL
+        order, // Отправляем данные в теле запроса
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        alert('Заказ успешно создан!');
+        // Очистить корзину после успешного оформления заказа
+        dispatch(clearCart());
+      } else {
+        alert('Ошибка при создании заказа.');
+      }
+    } catch (error) {
+      alert('Произошла ошибка при отправке заказа.');
+      console.error(error);
+    }
+
+    // Очистка данных клиента после отправки заказа
     setClientName('');
     setLicensePlate('');
     setSubscriptionExpiry('');

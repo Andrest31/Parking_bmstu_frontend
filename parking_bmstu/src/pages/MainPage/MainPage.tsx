@@ -1,4 +1,3 @@
-// src/pages/MainPage/MainPage.tsx
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
@@ -14,6 +13,7 @@ import { fetchParkings } from '../../API/parkingsApi';
 import Breadcrumbs from '../../components/BreadCrumps/BreadCrumps';
 import './MainPage.css';
 import defaultImage from '../../modules/img1.jpg';
+import axios from 'axios';
 
 interface Parking {
   id: number;
@@ -27,6 +27,16 @@ interface Parking {
   status: string;
 }
 
+interface CartItem {
+  id: number;
+  name: string;
+  imageCard: string;
+  quantity: number;
+  place: string;
+  spots: number;
+  orderId?: number; // Добавили поле orderId
+}
+
 const MainPage: React.FC = () => {
   const dispatch = useDispatch();
   const searchTerm = useSelector((state: RootState) => state.filters.searchTerm);
@@ -35,6 +45,22 @@ const MainPage: React.FC = () => {
   const [filteredCards, setFilteredCards] = useState<Parking[]>(CARDS_DATA);
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+
+  // Функция для добавления парковки в черновик
+  const addToDraft = async (card: Parking) => {
+    try {
+      // Замените URL на ваш реальный URL для добавления парковки в черновик
+      const response = await axios.post(`http://127.0.0.1:8000/parkings/${card.id}/add-to-draft/`, {
+        status: 'draft',
+        // Можно добавить дополнительные данные, если необходимо
+      });
+      return response.data; // Ответ сервера с информацией о добавленной парковке
+    } catch (error) {
+      console.error('Ошибка при добавлении парковки в черновик:', error);
+      return null;
+    }
+  };
 
   useEffect(() => {
     const fetchParkingList = async () => {
@@ -78,8 +104,28 @@ const MainPage: React.FC = () => {
     dispatch(setSearchTerm(tempSearchTerm));
   };
 
-  const handleAddToCart = (card: Parking) => {
-    dispatch(addToCart({ id: card.id, name: card.name, imageCard: card.image_card || defaultImage }));
+  const handleAddToCart = async (card: Parking) => {
+    if (cartItems.length === 0) {
+      // Если корзина пуста, создаем новый заказ
+      const newOrderId = await addToDraft(card); // Создаем заказ и добавляем парковку
+      if (newOrderId) {
+        console.log('Парковка добавлена в черновик:', newOrderId);
+        // Добавляем товар в корзину с новым заказом
+        dispatch(addToCart({ 
+          id: card.id, 
+          name: card.name, 
+          imageCard: card.image_card || defaultImage, 
+          orderId: newOrderId // Добавляем поле orderId
+        }));
+      }
+    } else {
+      // Если корзина не пуста, просто добавляем товар
+      dispatch(addToCart({ 
+        id: card.id, 
+        name: card.name, 
+        imageCard: card.image_card || defaultImage 
+      }));
+    }
   };
 
   return (
@@ -121,7 +167,7 @@ const MainPage: React.FC = () => {
                       openHour={card.open_hour}
                       closeHour={card.close_hour}
                     />
-                    <Button variant="primary" name="Wad" onClick={() => handleAddToCart(card)}>
+                    <Button variant="primary" onClick={() => handleAddToCart(card)}>
                       Добавить в корзину
                     </Button>
                   </Col>

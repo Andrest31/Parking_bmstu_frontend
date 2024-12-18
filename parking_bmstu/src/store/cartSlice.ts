@@ -9,6 +9,7 @@ interface CartItem {
   quantity: number;
   place: string;
   spots: number;
+  orderId?: number;
 }
 
 interface CartState {
