@@ -31,9 +31,10 @@ const LoginPage: React.FC = () => {
 
   
       // Формируем строку для базовой аутентификации
-
+    
       // Отправляем запрос с заголовком Authorization
       await apiInstance.login.loginCreate({ username, password }, {
+          withCredentials: true,
           headers: {
               'Content-Type': 'application/json',
           }
@@ -42,7 +43,7 @@ const LoginPage: React.FC = () => {
 
     // Если авторизация успешна (получен fulfilled ответ)
     if (loginUser.fulfilled.match(result)) {
-      navigate('/'); // Переход на главную страницу (или на другую, в зависимости от требований)
+      navigate('/profile'); // Переход на главную страницу (или на другую, в зависимости от требований)
     }
   };
 

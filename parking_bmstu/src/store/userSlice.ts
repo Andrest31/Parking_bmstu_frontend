@@ -15,6 +15,25 @@ const initialState: UserState = {
   error: null,
 };
 
+export const changePassword = createAsyncThunk(
+  'user/changePassword',
+  async ({ currentPassword, newPassword }: { currentPassword: string; newPassword: string }) => {
+    try {
+      const response = await axios.post('/api/change-password', {
+        currentPassword,
+        newPassword,
+      });
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return Promise.reject(error.response?.data?.message || 'Ошибка смены пароля');
+      } else {
+        return Promise.reject('Неизвестная ошибка');
+      }
+    }
+  }
+);
+
 // Создаем асинхронный экшен для авторизации
 export const loginUser = createAsyncThunk(
   'user/loginUser',

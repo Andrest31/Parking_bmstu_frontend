@@ -1,9 +1,10 @@
 // src/pages/CartPage/CartPage.tsx
-import React from 'react';
+
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { removeFromCart, clearCart, updateQuantity } from '../../store/cartSlice';
-import { Container, Row, Col, Button, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Button, Alert, Form } from 'react-bootstrap';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import './BasketPage.css';
@@ -11,6 +12,10 @@ import './BasketPage.css';
 const BasketPage: React.FC = () => {
   const dispatch = useDispatch();
   const cartItems = useSelector((state: RootState) => state.cart.items);
+
+  const [clientName, setClientName] = useState('');
+  const [licensePlate, setLicensePlate] = useState('');
+  const [subscriptionExpiry, setSubscriptionExpiry] = useState('');
 
   const handleRemoveItem = (id: number) => {
     dispatch(removeFromCart(id));
@@ -24,6 +29,24 @@ const BasketPage: React.FC = () => {
     if (quantity > 0) {
       dispatch(updateQuantity({ id, quantity }));
     }
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    // Здесь можно добавить проверку на валидность введенных данных
+    if (!clientName || !licensePlate || !subscriptionExpiry) {
+      alert("Пожалуйста, заполните все поля.");
+      return;
+    }
+
+    // Обработаем данные клиента (например, отправим на сервер или сохраним в состоянии)
+    console.log("Информация клиента:", { clientName, licensePlate, subscriptionExpiry });
+
+    // Очистим поля после отправки формы
+    setClientName('');
+    setLicensePlate('');
+    setSubscriptionExpiry('');
   };
 
   return (
@@ -41,7 +64,7 @@ const BasketPage: React.FC = () => {
                   <img src={item.imageCard} alt={item.name} className="cart-item-image" />
                   <div className="cart-item-details">
                     <div className="quantity-controls">
-                        <h5>{item.name}</h5>
+                      <h5>{item.name}</h5>
                       <Button
                         variant="secondary"
                         onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}
@@ -65,9 +88,47 @@ const BasketPage: React.FC = () => {
             ))}
           </Row>
         )}
+
         <Button variant="danger" onClick={handleClearCart} className="mt-4">
-          Очистить корзину
+          Очистить абонемента
         </Button>
+
+        {/* Форма для ввода информации о клиенте */}
+        <h3 className="mt-5">Информация о клиенте</h3>
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="clientName">
+            <Form.Label>Имя клиента</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Введите имя клиента"
+              value={clientName}
+              onChange={(e) => setClientName(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="licensePlate">
+            <Form.Label>Гос. номер</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Введите гос. номер"
+              value={licensePlate}
+              onChange={(e) => setLicensePlate(e.target.value)}
+            />
+          </Form.Group>
+
+          <Form.Group controlId="subscriptionExpiry">
+            <Form.Label>Срок действия абонемента</Form.Label>
+            <Form.Control
+              type="date"
+              value={subscriptionExpiry}
+              onChange={(e) => setSubscriptionExpiry(e.target.value)}
+            />
+          </Form.Group>
+
+          <Button type="submit" className="mt-3" variant="primary">
+            Подтвердить
+          </Button>
+        </Form>
       </main>
       <Footer />
     </Container>
