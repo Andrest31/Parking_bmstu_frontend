@@ -30,6 +30,8 @@
   display: inline-block; /* Ограничивает рамку размером текста */
 }
 
+
+
 .navbar {
   width: 100%;
   display: flex;

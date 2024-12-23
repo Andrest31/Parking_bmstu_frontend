@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { removeFromCart, clearCart, updateQuantity } from '../../store/cartSlice';
@@ -7,6 +7,7 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import axios from 'axios';
 import './BasketPage.css';
+import { api } from '../../API';
 
 const BasketPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -18,12 +19,12 @@ const BasketPage: React.FC = () => {
 
   const fetchDraftPass = async () => {
     try {
-      const response = await axios.get('http://127.0.0.1:8000/passes/draft/', {
+      const response = await axios.get('/api/passes/draft/', {
         auth: { username: 'Admin', password: 'Admin' },
       });
 
       if (response.status === 200 && response.data.id) {
-        return response.data.id;
+        return response.data;
       } else {
         console.error('Черновик заявки не найден. Ответ сервера:', response.data);
         return null;
@@ -34,13 +35,24 @@ const BasketPage: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    (async () => {
+      const data = await fetchDraftPass();
+      setClientName(data.client_name)
+      setLicensePlate(data.license_plate)
+      console.log(data.planned_deadline)
+      setSubscriptionExpiry(data.planned_deadline.slice(0, 10))
+
+    })();
+  }, [])
+
   const handleRemoveItem = (id: number) => {
     dispatch(removeFromCart(id));
   };
 
   const handleClearCart = async () => {
     try {
-      const draftPassId = await fetchDraftPass();  // Получаем ID черновика
+      const draftPassId = (await fetchDraftPass()).id;  // Получаем ID черновика
   
       if (draftPassId) {
         // Отправляем DELETE запрос для изменения статуса черновика на 'Удален'
@@ -87,7 +99,7 @@ const BasketPage: React.FC = () => {
       return;
     }
 
-    const draftPassId = await fetchDraftPass();
+    const draftPassId =( await fetchDraftPass()).id;
     if (!draftPassId) {
       alert('Не удалось найти черновик заявки. Пожалуйста, убедитесь, что черновик существует.');
       return;
@@ -125,6 +137,56 @@ const BasketPage: React.FC = () => {
     setSubscriptionExpiry('');
   };
 
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!clientName || !licensePlate || !subscriptionExpiry) {
+      alert('Пожалуйста, заполните все поля.');
+      return;
+    }
+
+    const draftPassId = (await fetchDraftPass()).id;
+    if (!draftPassId) {
+      alert('Не удалось найти черновик заявки. Пожалуйста, убедитесь, что черновик существует.');
+      return;
+    }
+
+    const order = {
+      client_name: clientName,
+      license_plate: licensePlate,
+      planned_deadline: subscriptionExpiry,
+      status: 'draft',
+    };
+
+    try {
+      const response = await api.passes.passesUpdateUpdate(draftPassId, order, {
+        headers: { 'Content-Type': 'application/json' },
+        auth: { username: 'Admin', password: 'Admin' },
+      })
+      // const response = await axios.put(
+      //   `http://127.0.0.1:8000/passes/${draftPassId}/form/`,
+      //   order,
+      //   {
+      //     headers: { 'Content-Type': 'application/json' },
+      //     auth: { username: 'Admin', password: 'Admin' },
+      //   }
+      // );
+
+      if (response.status === 200) {
+        alert('Заявка успешно сформирована!');
+        dispatch(clearCart());
+      } else {
+        alert('Ошибка при формировании заявки.');
+      }
+    } catch (error) {
+      alert('Произошла ошибка при отправке запроса.');
+      console.error(error);
+    }
+    console.log('it worked!')
+
+  }
+
+
   return (
     <Container fluid>
       <Header />
@@ -155,7 +217,7 @@ const BasketPage: React.FC = () => {
                         +
                       </Button>
                     </div>
-                    <Button variant="danger" onClick={() => handleRemoveItem(item.id)}>
+                    <Button variant="danger" className='Del' onClick={() => handleRemoveItem(item.id)}>
                       Удалить
                     </Button>
                   </div>
@@ -170,7 +232,7 @@ const BasketPage: React.FC = () => {
         </Button>
 
         <h3 className="mt-5">Информация о клиенте</h3>
-        <Form onSubmit={handleSubmit}>
+        <Form onSubmit={(e) => e.preventDefault()}>
           <Form.Group controlId="clientName">
             <Form.Label>Имя клиента</Form.Label>
             <Form.Control
@@ -200,7 +262,10 @@ const BasketPage: React.FC = () => {
             />
           </Form.Group>
 
-          <Button type="submit" className="mt-3" variant="primary">
+          <Button type="submit" className="mt-3" variant="primary" onClick={handleSave}>
+            Сохранить
+          </Button>
+          <Button type="submit" className="mt-3" variant="primary" onClick={handleSubmit}>
             Подтвердить
           </Button>
         </Form>

@@ -152,7 +152,7 @@ header h1 {
 
 .product-list {
     display: grid; /* Используем grid для создания сетки */
-    grid-template-columns: repeat(3, 1fr); /* Три колонки */
+    grid-template-columns: repeat(2, 1fr); /* Три колонки */
     gap: 12px; /* Промежуток между карточками */
     margin-top: 35px;
 }
@@ -225,7 +225,7 @@ header h1 {
     color:#ffffff ;
     text-align: left;
     width: 150px;
-    margin:12px 0px 12px 35px;
+    margin:12px 0px 12px 135px;
 }
 
 .product .price {
@@ -256,7 +256,7 @@ header h1 {
     text-align: right;
     color:#ffffff ;
     width: 340px;
-    margin:0px 0px 0px 35px;
+    margin:0px 0px 0px 135px;
     align-items: bottom;
 }
 .details-link { 

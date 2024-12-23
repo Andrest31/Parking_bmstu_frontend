@@ -13,7 +13,7 @@ interface Pass {
   license_plate: string; // Номерной знак
   status: string; // Статус
   client_name: string; // ФИО клиента
-  total_quantity: number; // Общее количество мест
+  total_quantity: number; // Количество парковочных мест
 }
 
 interface Order {
@@ -23,6 +23,7 @@ interface Order {
   licensePlate: string;
   status: string;
   client_name: string;
+  totalQuantity: number; // Количество парковочных мест
 }
 
 const OrdersPage: React.FC = () => {
@@ -45,15 +46,15 @@ const OrdersPage: React.FC = () => {
         });
         console.log(response); // Проверьте вывод данных в консоли
 
-
         const passes = response.data as Pass[];
         const transformedOrders: Order[] = passes.map((pass) => ({
           id: pass.id,
-          createdAt: pass.created_at || 'Не указана',
-          plannedDeadline: pass.planned_deadline || 'Не указана',
+          createdAt: formatDate(pass.created_at), // Форматируем дату
+          plannedDeadline: formatDate(pass.planned_deadline.slice(0, 10)), // Форматируем дату
           licensePlate: pass.license_plate || 'Не указано',
-          status: pass.status || 'Неизвестно',
+          status: pass.status === 'formed' ? 'Сформирован' : pass.status, // Заменяем статус
           client_name: pass.client_name || 'Не указано',
+          totalQuantity: pass.total_quantity || 0, // Количество парковочных мест
         }));
 
         setOrders(transformedOrders);
@@ -69,6 +70,12 @@ const OrdersPage: React.FC = () => {
     fetchOrders();
   }, []);
 
+  // Функция для форматирования даты в формат "YYYY-MM-DD"
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('ru-RU'); // Выводит дату в формате "ДД.MM.ГГГГ"
+  };
+
   return (
     <Container fluid>
       <Header />
@@ -79,7 +86,7 @@ const OrdersPage: React.FC = () => {
         {error && <Alert variant="danger">{error}</Alert>}
 
         {!loading && !error && (
-          <Row classname="Rows">
+          <Row className="Rows">
             {orders.length === 0 ? (
               <Col>
                 <Alert variant="info">Нет заказов</Alert>
@@ -94,6 +101,7 @@ const OrdersPage: React.FC = () => {
                       <th>Номерной знак</th>
                       <th>Статус</th>
                       <th>ФИО клиента</th>
+                      <th>Количество парковочных мест</th> {/* Новый столбец */}
                       <th>Действия</th>
                     </tr>
                   </thead>
@@ -105,12 +113,13 @@ const OrdersPage: React.FC = () => {
                         <td>{order.licensePlate}</td>
                         <td>{order.status}</td>
                         <td>{order.client_name}</td>
+                        <td>{order.totalQuantity}</td> {/* Выводим количество парковочных мест */}
                         <td>
-                        <Link to={`/passes/${order.id}`}>
-                          <Button variant="primary" size="sm" className="me-2">
-                            Подробнее
-                          </Button>
-                        </Link>
+                          <Link to={`/passes/${order.id}`}>
+                            <Button variant="primary" size="sm" className="me-2">
+                              Подробнее
+                            </Button>
+                          </Link>
                         </td>
                       </tr>
                     ))}

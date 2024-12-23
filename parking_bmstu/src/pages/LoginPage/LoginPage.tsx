@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';  // Импортируем Link
-import { Container, Form, Button, Alert } from 'react-bootstrap'; // Импортируем необходимые компоненты из react-bootstrap
+import { Container, Form, Button } from 'react-bootstrap'; // Импортируем необходимые компоненты из react-bootstrap
 import { RootState, AppDispatch } from '../../store/store'; // Импортируем RootState и AppDispatch из store
 import { loginUser } from '../../store/userSlice';  // Импортируем экшен для авторизации
 import Header from '../../components/Header/Header';
@@ -20,7 +20,7 @@ const LoginPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   // Получаем состояние из Redux (loading, error)
-  const { loading, error } = useSelector((state: RootState) => state.user);
+  const { loading,error } = useSelector((state: RootState) => state.user);
 
   // Обработчик отправки формы
   const handleSubmit = async (e: React.FormEvent) => {
@@ -47,15 +47,12 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <Container fluid className="d-flex justify-content-center align-items-center min-vh-100">
+    <Container fluid className="f-flex justify-content-center align-items-center min-vh-100">
       <Header />
 
       {/* Синий контейнер для формы */}
       <div className="register-container p-4 bg-primary text-white rounded shadow-lg">
         <h2 className="text-center">Вход</h2>
-
-        {/* Если есть ошибка авторизации, отображаем Alert */}
-        {error && <Alert variant="danger">{error}</Alert>}
 
         {/* Форма для входа */}
         <Form onSubmit={handleSubmit}>

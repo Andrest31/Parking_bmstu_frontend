@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Row, Col, Card, Image, Spinner, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Card, Image, Spinner } from 'react-bootstrap';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import Breadcrumbs from '../../components/BreadCrumps/BreadCrumps';
@@ -38,9 +38,7 @@ const ParkingPage: React.FC = () => {
     return <Spinner animation="border" role="status"><span className="visually-hidden">Загрузка...</span></Spinner>;
   }
 
-  if (!parking) {
-    return <Alert variant="danger">Парковка не найдена</Alert>;
-  }
+  
 
   return (
     <Container fluid>
@@ -50,7 +48,7 @@ const ParkingPage: React.FC = () => {
         <section className="hero bg-dark text-white p-5">
           <Container>
             <h2>Аренда места у {parking.name}</h2>
-            {isError && <Alert variant="warning">Не удалось подключиться к базе данных. Показаны резервные данные.</Alert>}
+            {isError}
             <Image src={parking.image || 'http://localhost:9000/mini/images/building1.jpg'} fluid />
           </Container>
         </section>

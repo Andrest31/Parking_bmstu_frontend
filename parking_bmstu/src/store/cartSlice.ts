@@ -8,7 +8,7 @@ interface CartItem {
   imageCard: string;
   quantity: number;
   place: string;
-  spots: number;
+  sports: number;
   orderId?: number;
 }
 

@@ -51,12 +51,14 @@
   }
   
   button {
-    width: 100%;
+    width: 315px;
   }
-  
+  .Del{
+    margin-left: 600px;
+  }
   button.mt-3 {
     width: auto;
-    margin: 20px 0px;
+    margin: 20px 5px;
     padding: 5px;
   }
 

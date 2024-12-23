@@ -7,12 +7,12 @@ interface ParkingCardProps {
   id: number;
   name: string;
   imageCard: string;
-  spots: number;
+  sports: number;
   openHour: number;
   closeHour: number;
 }
 
-const ParkingCard: React.FC<ParkingCardProps> = ({ id, name, imageCard, spots, openHour, closeHour }) => {
+const ParkingCard: React.FC<ParkingCardProps> = ({ id, name, imageCard, sports, openHour, closeHour }) => {
   const navigate = useNavigate();
 
   const handleCardClick = () => {
@@ -29,7 +29,7 @@ const ParkingCard: React.FC<ParkingCardProps> = ({ id, name, imageCard, spots, o
         </div>
         <div className="name-pr-container">
           <div className="name">{name}</div>
-          <div className="text">Количество мест: {spots}</div>
+          <div className="text">Количество мест: {sports}</div>
           <div className="text">Время работы: {openHour}:00 - {closeHour}:00</div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../store/store';
 import { setSearchTerm } from '../../store/features/filtersSlice';
 import { addToCart } from '../../store/cartSlice'; // Импорт экшена для добавления в корзину
-import { Container, Row, Col, Spinner, Alert, Button } from 'react-bootstrap';
+import { Container, Row, Col, Spinner, Button, Badge } from 'react-bootstrap';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import ParkingCard from '../../components/Card/Card';
@@ -14,6 +14,9 @@ import Breadcrumbs from '../../components/BreadCrumps/BreadCrumps';
 import './MainPage.css';
 import defaultImage from '../../modules/img1.jpg';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 interface Parking {
   id: number;
@@ -33,7 +36,7 @@ interface CartItem {
   imageCard: string;
   quantity: number;
   place: string;
-  spots: number;
+  sports: number;
   orderId?: number; // Добавили поле orderId
 }
 
@@ -46,6 +49,7 @@ const MainPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const cartItems = useSelector((state: RootState) => state.cart.items);
+  const cartItemCount = cartItems.reduce((total, item) => total + item.quantity, 0); // Считаем общее количество товаров
 
   // Функция для добавления парковки в черновик
   const addToDraft = async (card: Parking) => {
@@ -145,8 +149,24 @@ const MainPage: React.FC = () => {
       <Header />
       <Breadcrumbs />
       <main className="main text-center">
-        <h2 className="mb-4">Аренда места</h2>
-        <div className="categories d-flex justify-content-center align-items-center">
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2 className="mb-0">Аренда места</h2>
+        <Link to="/cart">
+          <Button variant="primary" className="btn-subscription">
+            Абонемент
+            {cartItemCount > 0 && (
+                <Badge
+                  bg="danger"
+                  pill
+                  className="position-absolute top-0 start-100 translate-middle"
+                  style={{ fontSize: '12px' }}
+                >
+                  {cartItemCount}
+                </Badge>)}
+          </Button>
+        </Link>
+      </div>        
+      <div className="categories f-flex justify-content-center align-items-center">
           <p className="mb-0">Время работы:</p>
           <SearchBar
             value={tempSearchTerm}
@@ -160,22 +180,18 @@ const MainPage: React.FC = () => {
           </Spinner>
         ) : (
           <div>
-            {isError && (
-              <Alert variant="danger">
-                Не удалось подключиться к базе данных. Показаны резервные данные.
-              </Alert>
-            )}
+            
             {filteredCards.length === 0 ? (
               <p className="text-muted">Доступных парковок нет</p>
             ) : (
               <Row className="product-list">
                 {filteredCards.map((card) => (
-                  <Col key={card.id} xs={12} md={4} className="mb-4">
+                  <Col key={card.id} xs={12} md={6} className="mb-4">
                     <ParkingCard
                       id={card.id}
                       name={card.name}
                       imageCard={card.image_card || defaultImage}
-                      spots={card.sports}
+                      sports={card.sports}
                       openHour={card.open_hour}
                       closeHour={card.close_hour}
                     />
