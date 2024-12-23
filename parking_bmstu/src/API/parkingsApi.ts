@@ -3,9 +3,7 @@
 export const fetchParkings = async () => {
   const createFetchFunction = new Function(
     'return async function fetchData() {' +
-      'const response = await fetch("/api/parkings", {' +
-        'method: "GET",' +
-        'credentials: "include"' + // Добавляем cookies
+      'const response = await fetch("/parkings", {' +
       '});' +
       'if (!response.ok) {' +
         'throw new Error("Ошибка загрузки парковок");' +
