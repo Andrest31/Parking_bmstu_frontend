@@ -16,33 +16,41 @@ const apiInstance = new Api();
 const LoginPage: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
-  // Получаем состояние из Redux (loading, error)
-  const { loading,error } = useSelector((state: RootState) => state.user);
+  // Получаем состояние из Redux
+  const { loading } = useSelector((state: RootState) => state.user);
 
   // Обработчик отправки формы
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Диспатчим экшен loginUser с переданными данными
-    const result = await dispatch(loginUser({ username, password }));
-
-      // Формируем строку для базовой аутентификации
-    
+    try {
       // Отправляем запрос с заголовком Authorization
-      await apiInstance.login.loginCreate({ username, password }, {
+      const response = await apiInstance.login.loginCreate(
+        { username, password },
+        {
           withCredentials: true,
           headers: {
-              'Content-Type': 'application/json',
-          }
-      });
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
+      // Проверяем успешный статус ответа
+      if (response.status === 200) {
+        // Диспатчим action для установки данных пользователя в Redux
+        dispatch(loginUser({ username }));
 
-    // Если авторизация успешна (получен fulfilled ответ)
-    if (loginUser.fulfilled.match(result)) {
-      navigate('/profile'); // Переход на главную страницу (или на другую, в зависимости от требований)
+        navigate('/'); // Переход на главную страницу после успешного логина
+      } else {
+        setError('Ошибка авторизации. Проверьте логин и пароль.');
+      }
+    } catch (err) {
+      setError('Произошла ошибка при входе. Попробуйте снова.');
+      console.error(err);
     }
   };
 

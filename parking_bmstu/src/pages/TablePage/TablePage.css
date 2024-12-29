@@ -1,37 +1,124 @@
 /* src/pages/OrdersPage/OrdersPage.css */
 
-main{
+main {
   background-color: #fff;
+}
+
+h2 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* Контейнер таблицы */
+.table-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Шапка таблицы */
+.table-header {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto; /* Автоматическая ширина по содержимому */
+  gap: 10px;
+  align-items: center;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+/* Ряды таблицы */
+.table-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 1fr 2fr 1fr 1fr; /* Пропорции колонок */
+  gap: 10px;
+  align-items: center;
+  padding: 10px 15px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Ячейки таблицы */
+.table-cell {
+  text-align: center;
+  font-size: 0.9rem;
+  padding: 3px;
+}
+.table-cell_st{
+  margin-left: -97px;
+}
+.table-cell:last-child {
+  text-align: right;
+}
+
+/* Действия (кнопки) */
+.table-action {
+  text-align: center;
+}
+.table-cell-n{
+  margin-left: -50px;
 
 }
-  
-  h2 {
-    font-size: 2.5rem;
-    margin-bottom: 30px;
-  }
-  
-  .table {
-    background-color: #fff;
-    margin-bottom: 20px;
-  }
-  .mb4{
-    margin-bottom: 220px;
+.table-cell-pd{
+  margin-left: -120px;
+}
+.table-cell_cn{
+  margin-left: -50px;
 
+}
+.table-cell_p{
+  margin-left: -50px;
+
+}
+
+button {
+  width: 120px;
+  margin-right: 10px;
+  margin-top: 0px;
+}
+.table-cell-lp{
+  margin-left: -160px;
+}
+
+/* Дополнительные стили для таблицы */
+.table th,
+.table td {
+  text-align: center;
+  width: auto;
+}
+
+.table td {
+  vertical-align: middle;
+  height: 60px;
+}
+
+/* Дополнительные отступы */
+.mb4 {
+  margin-bottom: 220px;
+}
+
+.me-2 {
+  margin: 0;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .table-header,
+  .table-row {
+    grid-template-columns: 1fr 1fr 1fr; /* Упрощение на мобильных устройствах */
+    font-size: 0.8rem;
   }
-  .me-2{
-    margin: 0;
+
+  .table-cell {
+    font-size: 0.8rem;
   }
-  .table th, .table td {
-    text-align: center;
-    width: 200px;
-  }
-  
-  .table td {
-    vertical-align: middle;
-    height: 60px;
-  }
-  
-  button {
-    margin-right: 10px;
-  }
-  
+}
