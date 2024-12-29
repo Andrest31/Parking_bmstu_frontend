@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { removeFromCart, clearCart, updateQuantity } from '../../store/cartSlice';
-import { Container, Row, Col, Button, Alert, Form } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import axios from 'axios';
@@ -193,7 +193,8 @@ const BasketPage: React.FC = () => {
       <main className="main text-center">
         <h2 className="mb-4">Абонемент</h2>
         {cartItems.length === 0 ? (
-          <Alert variant="info">Абонемент пустой</Alert>
+          <h5>Абонемент пустой</h5>
+
         ) : (
           <Row>
             {cartItems.map((item) => (

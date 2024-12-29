@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Spinner, Alert, Button } from 'react-bootstrap';
+import { Container, Spinner, Button } from 'react-bootstrap';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import axios from 'axios';
@@ -80,7 +80,6 @@ const OrdersPage: React.FC = () => {
         <h2 className="mb-4 text-center">Мои абонементы</h2>
 
         {loading && <Spinner animation="border" variant="primary" />}
-        {error && <Alert variant="danger">{error}</Alert>}
 
         {!loading && !error && (
           <div className="table-container">

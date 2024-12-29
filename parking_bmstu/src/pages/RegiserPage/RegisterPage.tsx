@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container, Form, Button, Alert } from "react-bootstrap";
+import { Container, Form, Button } from "react-bootstrap";
 import { Api } from '../../API/Api';
 import { Link } from 'react-router-dom';  // Импортируем Link
 import Header from '../../components/Header/Header';
@@ -65,8 +65,8 @@ const RegisterPage: React.FC = () => {
                             required
                         />
                     </Form.Group>
-                    {error && <Alert variant="danger">{error}</Alert>}
-                    {success && <Alert variant="success">Регистрация прошла успешно!</Alert>}
+                    {error }
+                    {success}
                     <Button variant="light" type="submit" className="w-100">
                         Зарегистрироваться
                     </Button>

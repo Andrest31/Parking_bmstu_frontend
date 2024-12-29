@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom'; // Для получения id заявки из URL
-import { Container, Row, Col, Button, Alert, Table } from 'react-bootstrap';
+import { Container, Row, Col, Button, Table } from 'react-bootstrap';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import axios from 'axios';
@@ -74,8 +74,6 @@ const OrderDetailsPage: React.FC = () => {
         <h2 className="mb-4">Детали абонемента #{orderId}</h2>
 
         {/* Сообщения о статусе */}
-        {loading && <Alert variant="info">Загрузка...</Alert>}
-        {error && <Alert variant="danger">{error}</Alert>}
 
         {/* Отображение информации о заказе */}
         {orderDetails && !loading && !error && (
@@ -110,7 +108,7 @@ const OrderDetailsPage: React.FC = () => {
 
                 <h4 className="mt-4">Выбранные парковки</h4>
                 {orderDetails.selected_parkings.length === 0 ? (
-                  <Alert variant="info">Парковки не выбраны</Alert>
+                  <h5>Абонемент пустой</h5>
                 ) : (
                   <Table striped bordered hover responsive>
                     <thead>

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';  // Импортируем Link
-import { Container, Form, Button, Alert } from 'react-bootstrap'; // Импортируем необходимые компоненты из react-bootstrap
+import { Container, Form, Button } from 'react-bootstrap'; // Импортируем необходимые компоненты из react-bootstrap
 import { RootState, AppDispatch } from '../../store/store'; // Импортируем RootState и AppDispatch из store
 import Header from '../../components/Header/Header';
 import './ErrorPage.css'; // Ваши стили для страницы логина
